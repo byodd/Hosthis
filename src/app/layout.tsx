@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Outfit } from 'next/font/google'
 import './globals.css'
+import SessionWrapper from "../components/SessionWrapper"
 
 const outfit = Outfit({ subsets: ["latin"] });
 
@@ -15,8 +16,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" className={outfit.className}>
-      <body>{children}</body>
-    </html>
+    <SessionWrapper>
+      <html lang="fr" className={outfit.className}>
+        <body>{children}</body>
+      </html>
+      </SessionWrapper>
   );
 }

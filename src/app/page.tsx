@@ -15,7 +15,7 @@ export default function Home() {
         <Link
           href="/login"
           className="flex flex-row items-center py-2 px-12 bg-[#023246] rounded-lg text-white md:text-[20px] font-semibold hover:bg-[#184d78] duration-300 hover:scale-105"
-        >
+        > 
           S&apos;inscrire/se connecter
         </Link>
       </div>
