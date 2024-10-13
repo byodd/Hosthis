@@ -2,15 +2,15 @@
 "use client";
 
 // importing necessary functions
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Logo from "../../../public/svg/logo.svg";
 
 export default function Login() {
   // extracting data from usesession as session
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   // checking if sessions exists
   if (session) {
@@ -62,10 +62,9 @@ export default function Login() {
         className="bg-none flex flex-row border-gray-300 border py-3 px-6 rounded-md mb-2 hover:bg-gray-100 duration-300"
         onClick={() => signIn("github")}
       >
-        <GitHubLogoIcon className="w-6 h-6 mr-2" />
+        <Image src={GitHubLogoIcon} alt="GitHub Logo" className="w-6 h-6 mr-2" />
         Se connecter avec GitHub
       </button>
     </div>
   );
-
 }
