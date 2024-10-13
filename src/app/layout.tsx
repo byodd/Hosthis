@@ -18,8 +18,8 @@ export default function RootLayout({
   return (
     <SessionWrapper>
       <html lang="fr" className={outfit.className}>
-        <body>{children}</body>
+        <body className="text-[#023246] p-10 h-screen w-screen">{children}</body>
       </html>
-      </SessionWrapper>
+    </SessionWrapper>
   );
 }

@@ -1,24 +1,11 @@
 import Image from "next/image";
-import Logo from "../../public/svg/logo.svg";
 import PlanetGif from "../../public/gifplanet.webp";
-import Link from "next/link";
+import Header from "./components/Header";
+
 export default function Home() {
   return (
-    <div className="p-10 text-[#023246]">
-      <div className="flex flex-col md:flex-row items-center justify-between">
-        <div className="flex flex-row items-center gap-2">
-          <Image src={Logo} alt="Web" />
-          <p className="text-[32px] font-light">
-            Host<span className="font-medium">This</span>
-          </p>
-        </div>
-        <Link
-          href="/login"
-          className="flex flex-row items-center py-2 px-12 bg-[#023246] rounded-lg text-white md:text-[20px] font-semibold hover:bg-[#184d78] duration-300 hover:scale-105"
-        > 
-          S&apos;inscrire/se connecter
-        </Link>
-      </div>
+    <div>
+      <Header></Header>
 
       <div className="flex flex-col-reverse md:flex-row items-center w-full h-[80vh] md:justify-between">
         <div className="z-10 md:mt-24 md:ml-28 md:w-1/2 flex flex-col">

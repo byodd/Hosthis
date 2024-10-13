@@ -1,16 +1,15 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
-import Link from "next/link";
 import Image from "next/image";
 import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
-import Logo from "../../../public/svg/logo.svg";
+import Header from "../components/Header";
 
 export default function Login() {
   const { data: session } = useSession();
 
   const content = session ? (
-    <div>
+    <div className="flex flex-col items-center">
       <div className="w-44 h-44 relative mb-4">
         <Image
           src={session.user?.image as string}
@@ -23,12 +22,12 @@ export default function Login() {
         Bienvenue <span className="font-bold">{session.user?.name}</span>
       </p>
       <p className="font-bold mb-4">{session.user?.email}</p>
-      <button
-        className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white py-2 px-6 rounded-md duration-300"
-        onClick={() => signOut()}
-      >
-        Se déconnecter
-      </button>
+        <button
+          className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white py-2 px-6 rounded-md duration-300"
+          onClick={() => signOut()}
+        >
+          Se déconnecter
+        </button>
     </div>
   ) : (
     <button
@@ -41,16 +40,9 @@ export default function Login() {
   );
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
-      <div className="absolute flex flex-col md:flex-row items-center justify-between w-full top-0 p-10">
-        <Link href={"/"} className="flex flex-row items-center gap-2">
-          <Image src={Logo} alt="Web" />
-          <p className="text-[32px] font-light">
-            Host<span className="font-medium">This</span>
-          </p>
-        </Link>
-      </div>
-      {content}
+    <div className="h-full overflow-hidden">
+      <Header></Header>
+      <div className="h-full flex flex-col items-center justify-center">{content}</div>
     </div>
   );
 }

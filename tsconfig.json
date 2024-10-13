@@ -36,7 +36,7 @@
     "**/*.tsx",
     "src/components/quoicoubeh.tsx",
     ".next/types/**/*.ts"
-  ],
+, "__tests__/Header.test.jsx"  ],
   "exclude": [
     "node_modules"
   ]
