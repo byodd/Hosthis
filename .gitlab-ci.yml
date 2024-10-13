@@ -3,6 +3,10 @@ stages:
   - test
   - sonarqube-check
 
+cache:
+  paths:
+    - node_modules/
+
 job-build:
   stage: build
   image: node:21.6.1
