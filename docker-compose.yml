@@ -11,6 +11,7 @@ services:
       NEXTAUTH_URL: "http://localhost:3000/"
       GITHUB_ID: "Ov23liNXLmVpxOUT7wMb"
       GITHUB_SECRET: "b555ad0d6d84e9c83b486595be973c5580a50556"
+      API_URL: "http://api:3001"
     volumes:
       - .:/app/:delegated
     networks:
