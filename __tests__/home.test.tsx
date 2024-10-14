@@ -2,8 +2,10 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { SessionProvider } from 'next-auth/react';
 import Home from '../src/app/page';
+import { Session } from 'next-auth';
 
-const mockSession = {
+// Typage du mockSession
+const mockSession: Session = {
   expires: '1',
   user: {
     email: 'user@example.com',
