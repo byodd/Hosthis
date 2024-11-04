@@ -4,29 +4,7 @@ import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Header from "../components/Header";
-
-async function fetchGitHubProjects(userEmail: string) {
-  const userResponse = await fetch(
-    `https://api.github.com/search/users?q=${userEmail}+in:email`
-  );
-  if (!userResponse.ok) {
-    throw new Error("Failed to fetch GitHub username");
-  }
-  const userData = await userResponse.json();
-
-  if (userData.total_count === 0) {
-    throw new Error("No GitHub user found with that email");
-  }
-  const userName = userData.items[0].login;
-
-  const repoResponse = await fetch(
-    `https://api.github.com/users/${userName}/repos`
-  );
-  if (!repoResponse.ok) {
-    throw new Error("Failed to fetch GitHub projects");
-  }
-  return repoResponse.json();
-}
+import { fetchGitHubProjects } from "../utils/users";
 
 export default function Dashboard() {
   const { data: session } = useSession();
