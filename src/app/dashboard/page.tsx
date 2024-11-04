@@ -4,12 +4,15 @@ import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Header from "../components/Header";
-import { fetchGitHubProjects } from "../utils/users";
+import { fetchGitHubProjects, getUsernameFromEmail } from "../utils/users.service";
 import { Project } from "../types/projects.type";
+import { strict } from "assert";
 
 export default function Dashboard() {
   const { data: session } = useSession();
   const [gitHubProjects, setGitHubProjects] = useState([]);
+  const [gitHubUsername, setGitHubUsername] = useState<string>();
+  var userName: string | undefined | null = session?.user?.name;
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -17,6 +20,11 @@ export default function Dashboard() {
         .then(setGitHubProjects)
         .catch((error) =>
           console.error("Fetching GitHub projects failed:", error)
+      );
+      
+      getUsernameFromEmail(session.user.email)
+        .then(setGitHubUsername).catch((error) =>
+          console.error("Getting GitHub name failed:", error)
         );
     }
   }, [session?.user?.email]);
@@ -40,12 +48,13 @@ export default function Dashboard() {
         style={{ maxHeight: "300px", overflowY: "auto" }}
       >
         {gitHubProjects.map((project: Project) => (
-          <li
+          <a
+            href={`${gitHubUsername}/${project.name}`}
             className="border border-gray-300 rounded-md py-2 px-4 mb-2 hover:bg-gray-100 duration-300 cursor-pointer"
             key={project.id}
           >
             {project.name}
-          </li>
+          </a>
         ))}
       </ul>
     </div>

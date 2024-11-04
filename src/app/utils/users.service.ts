@@ -11,7 +11,7 @@ export async function fetchGitHubProjects(userEmail: string) {
   return repoResponse.json();
 }
 
-async function getUsernameFromEmail(userEmail: string) {
+export async function getUsernameFromEmail(userEmail: string) {
     const userResponse = await fetch(
     `https://api.github.com/search/users?q=${userEmail}+in:email`
   );
