@@ -5,6 +5,7 @@ import Image from "next/image";
 import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Header from "../components/Header";
 import { fetchGitHubProjects } from "../utils/users";
+import { Project } from "../types/projects.type";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -38,7 +39,7 @@ export default function Dashboard() {
         className="flex flex-col items-start gap-2 w-full"
         style={{ maxHeight: "300px", overflowY: "auto" }}
       >
-        {gitHubProjects.map((project) => (
+        {gitHubProjects.map((project: Project) => (
           <li
             className="border border-gray-300 rounded-md py-2 px-4 mb-2 hover:bg-gray-100 duration-300 cursor-pointer"
             key={project.id}
