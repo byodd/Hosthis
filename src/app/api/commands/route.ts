@@ -1,31 +1,6 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function sendCommands(
-  installCommand: string,
-  buildCommand: string,
-  launchCommand: string
-) {
-  const apiUrl = process.env.API_URL as string;
-
-  const response = await fetch(`${apiUrl}/commands`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      installCommand,
-      buildCommand,
-      launchCommand,
-    }),
-  });
-
-  if (!response.ok) {
-    throw new Error("Failed to send commands");
-  }
-  return response.json();
-}
-
 export async function POST(req: NextRequest) {
   const apiUrl = process.env.API_URL;
   const apiKey = process.env.HOSTHIS_API_KEY;
@@ -41,7 +16,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await axios.post(
-      `${apiUrl}/commands`,
+      `${apiUrl}/V1/commands`,
       {
         ...body,
       },
