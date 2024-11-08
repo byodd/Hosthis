@@ -4,63 +4,90 @@ import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import GitHubLogoIcon from "../../../../public/svg/github-logo.svg";
 import Header from "../../components/Header";
-import { fetchGitHubProjects } from "../../utils/users.service";
-import { ProjectCode } from "../../types/projects.type";
+import { createProject } from "../../utils/project.service";
 import { getProject } from "@/app/utils/project.service";
 import { useParams } from "next/navigation";
+import { GithubProject } from "@/app/types/projects.type";
 
 export default function Project() {
   const { data: session } = useSession();
-  const [gitHubProjects, setGitHubProjects] = useState([]);
-  const [gitHubProject, setGitHubProject] = useState([]);
+  const [gitHubProject, setGitHubProject] = useState<GithubProject | null>();
+
+  const [installCommand, setInstallCommand] = useState("");
+  const [buildCommand, setBuildCommand] = useState("");
+  const [launchCommand, setLaunchCommand] = useState("");
 
   const params = useParams();
 
-  useEffect(() => {
-    if (session?.user?.email) {
-      fetchGitHubProjects(session.user.email)
-        .then(setGitHubProjects)
-        .catch((error) =>
-          console.error("Fetching GitHub projects failed:", error)
-        );
+  const userEmail: string | null | undefined = session?.user?.email;
+  const projectUrl: string | null | undefined = gitHubProject?.html_url;
 
+  useEffect(() => {
+    if (userEmail) {
       getProject(params.userName as string, params.projectName as string)
         .then(setGitHubProject)
         .catch((error) =>
           console.error("Fetching the GitHub project failed:", error)
         );
     }
-  }, [session?.user?.email]);
+  }, [userEmail, params.userName, params.projectName]);
+
+  function sendInfo() {
+    if (projectUrl && userEmail)
+      createProject(projectUrl, installCommand, buildCommand, launchCommand, userEmail).then(() => {
+        console.log("Project created");
+      }).catch((error) => {
+        console.error("Failed to create the project:", error);
+      }
+      );
+  }
 
   const content = session ? (
     <div className="flex flex-col items-center">
-      <p className="text-2xl mb-4">
-        Tu veux héberger <span className="font-bold">{params.projectName}</span> ?
+      <p className="text-2xl">
+        Tu veux héberger <span className="font-bold">{gitHubProject?.name}</span> ?
       </p>
-      <form className="flex flex-col items-center">
+      <p className="text-lg mb-4">
+        Remplis les champs ci-dessous pour créer le projet.
+      </p>
+      <form className="flex flex-col w-full mt-3">
+        <label>Commande d&apos;installation des packages</label>
         <input
           type="text"
-          placeholder="Commande d'installation des packages"
+          placeholder="npm install"
           className="border-gray-300 border py-3 px-6 rounded-md mb-2"
+          value={installCommand}
+          onChange={(e) => setInstallCommand(e.target.value)}
         />
+        <label>Commande de build</label>
         <input
           type="text"
-          placeholder="Commande de build"
+          placeholder="npm run build"
           className="border-gray-300 border py-3 px-6 rounded-md mb-2"
+          value={buildCommand}
+          onChange={(e) => setBuildCommand(e.target.value)}
         />
+        <label>Commande de lancement</label>
         <input
           type="text"
-          placeholder="Commande de lancement"
+          placeholder="npm start"
+          value={launchCommand}
           className="border-gray-300 border py-3 px-6 rounded-md mb-2"
+          onChange={(e) => setLaunchCommand(e.target.value)}
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white py-3 px-6 rounded-md mb-2"
+          className="bg-[#023246] text-white py-3 px-6 rounded-md my-2 hover:bg-[#224f66] duration-300 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          disabled={!installCommand || !buildCommand || !launchCommand}
+          onClick={(e) => {
+            e.preventDefault();
+            sendInfo();
+          }}
         >
           Créer le projet
         </button>
       </form>
-    </div>
+    </div >
   ) : (
     <button
       className="bg-none flex flex-row border-gray-300 border py-3 px-6 rounded-md mb-2 hover:bg-gray-100 duration-300"
