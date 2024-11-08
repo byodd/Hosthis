@@ -4,15 +4,14 @@ import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Header from "../components/Header";
-import { fetchGitHubProjects, getUsernameFromEmail } from "../utils/users.service";
+import { getUsernameFromEmail } from "../utils/users.service";
 import { Project } from "../types/projects.type";
-import { strict } from "assert";
+import { fetchGitHubProjects } from "../utils/project.service";
 
 export default function Dashboard() {
   const { data: session } = useSession();
   const [gitHubProjects, setGitHubProjects] = useState([]);
   const [gitHubUsername, setGitHubUsername] = useState<string>();
-  var userName: string | undefined | null = session?.user?.name;
 
   useEffect(() => {
     if (session?.user?.email) {

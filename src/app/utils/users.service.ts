@@ -1,16 +1,3 @@
-
-export async function fetchGitHubProjects(userEmail: string) {
-  const userName = await getUsernameFromEmail(userEmail)
-
-  const repoResponse = await fetch(
-    `https://api.github.com/users/${userName}/repos`
-  );
-  if (!repoResponse.ok) {
-    throw new Error("Failed to fetch GitHub projects");
-  }
-  return repoResponse.json();
-}
-
 export async function getUsernameFromEmail(userEmail: string) {
     const userResponse = await fetch(
     `https://api.github.com/search/users?q=${userEmail}+in:email`

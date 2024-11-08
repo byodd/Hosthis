@@ -3,7 +3,8 @@ export interface Project {
   name: string;
 }
 
-export interface ProjectCode {
+export interface GithubProject {
   id: string;
+  html_url: string;
   name: string;
 }
