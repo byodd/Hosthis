@@ -13,20 +13,30 @@ export default function Dashboard() {
   const [gitHubProjects, setGitHubProjects] = useState([]);
   const [gitHubUsername, setGitHubUsername] = useState<string>();
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>();
+
+  const userEmail = session?.user?.email;
+
   useEffect(() => {
-    if (session?.user?.email) {
-      fetchGitHubProjects(session.user.email)
+    if (userEmail) {
+      fetchGitHubProjects(userEmail)
         .then(setGitHubProjects)
-        .catch((error) =>
-          console.error("Fetching GitHub projects failed:", error)
-      );
-      
-      getUsernameFromEmail(session.user.email)
-        .then(setGitHubUsername).catch((error) =>
-          console.error("Getting GitHub name failed:", error)
+        .catch((error) => {
+          console.error("Fetching GitHub projects failed:", error);
+          setError("La récupération des projets GitHub a échoué");
+        }
+        );
+
+      getUsernameFromEmail(userEmail)
+        .then(setGitHubUsername).catch((error) => {
+          console.error("Fetching GitHub username failed:", error);
+          setError("La récupération du nom d'utilisateur GitHub a échoué");
+        }
         );
     }
-  }, [session?.user?.email]);
+    setLoading(false);
+  }, [userEmail]);
 
   const content = session ? (
     <div className="flex flex-col items-center">
@@ -71,7 +81,12 @@ export default function Dashboard() {
     <div className="h-full overflow-hidden">
       <Header />
       <div className="h-full flex flex-col items-center justify-center">
-        {content}
+        {error && <p className="text-red-500"
+        >❌{error}</p>}
+        {
+          loading ? <p>Chargement...</p> :
+            content
+        }
       </div>
     </div>
   );
