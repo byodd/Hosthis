@@ -17,6 +17,9 @@ export default function Project() {
   const [buildCommand, setBuildCommand] = useState("");
   const [launchCommand, setLaunchCommand] = useState("");
 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>();
+
   const params = useParams();
 
   const userEmail: string | null | undefined = session?.user?.email;
@@ -26,10 +29,13 @@ export default function Project() {
     if (userEmail) {
       getProject(params.userName as string, params.projectName as string)
         .then(setGitHubProject)
-        .catch((error) =>
-          console.error("Fetching the GitHub project failed:", error)
+        .catch((error) => {
+          console.error("Fetching GitHub project failed:", error);
+          setError("La récupération du projet GitHub a échoué");
+        }
         );
     }
+    setLoading(false);
   }, [userEmail, params.userName, params.projectName]);
 
   function sendInfo() {
@@ -102,7 +108,13 @@ export default function Project() {
     <div className="h-full overflow-hidden">
       <Header />
       <div className="h-full flex flex-col items-center justify-center">
-        {content}
+        {error && <p className="text-red-500"
+        >❌{error}</p>}
+        {
+          loading ? <p>Chargement...</p> :
+            error ? null :
+              content
+        }
       </div>
     </div>
   );
