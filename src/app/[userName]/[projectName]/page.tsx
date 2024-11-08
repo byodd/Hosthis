@@ -37,6 +37,29 @@ export default function Project() {
       <p className="text-2xl mb-4">
         Tu veux héberger <span className="font-bold">{params.projectName}</span> ?
       </p>
+      <form className="flex flex-col items-center">
+        <input
+          type="text"
+          placeholder="Commande d'installation des packages"
+          className="border-gray-300 border py-3 px-6 rounded-md mb-2"
+        />
+        <input
+          type="text"
+          placeholder="Commande de build"
+          className="border-gray-300 border py-3 px-6 rounded-md mb-2"
+        />
+        <input
+          type="text"
+          placeholder="Commande de lancement"
+          className="border-gray-300 border py-3 px-6 rounded-md mb-2"
+        />
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-3 px-6 rounded-md mb-2"
+        >
+          Créer le projet
+        </button>
+      </form>
     </div>
   ) : (
     <button
