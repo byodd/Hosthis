@@ -2,17 +2,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Header from "../../components/Header";
 import { getUsernameFromEmail } from "../../services/users.service";
 import { Project } from "../../types/projects.type";
 import { getHostedProjects } from "../../services/project.service";
-import GitHubLogoIcon from "../../../../public/svg/github-logo.svg";
+import SignInButton from "@/app/components/SignInButton";
 
 export default function Projects() {
   const { data: session } = useSession();
   const [projects, setProjects] = useState<Project[]>([]);
-  const [gitHubUsername, setGitHubUsername] = useState<string>();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
@@ -23,13 +22,9 @@ export default function Projects() {
     if (userEmail) {
       getHostedProjects(userEmail)
         .then((res) => setProjects(res.projects))
-        .catch((error) => console.error(error));
-
-      getUsernameFromEmail(userEmail)
-        .then(setGitHubUsername)
         .catch((error) => {
-          console.error("Fetching GitHub username failed:", error);
-          setError("La récupération du nom d'utilisateur GitHub a échoué");
+          console.error(error);
+          setError("La récupération des projets hébergés a échoué");
         });
     }
     setLoading(false);
@@ -50,7 +45,7 @@ export default function Projects() {
         {projects.length > 0 ? (
           projects.map((project) => (
             <Link
-              href={project.project_url}
+              href={`/project/${project.hosting_id}`}
               className="border border-gray-300 rounded-md py-2 px-4 mb-2 hover:bg-gray-100 duration-300 cursor-pointer"
               key={project.hosting_id}
             >
@@ -69,13 +64,7 @@ export default function Projects() {
       </Link>
     </div>
   ) : (
-    <button
-      className="bg-none flex flex-row border-gray-300 border py-3 px-6 rounded-md mb-2 hover:bg-gray-100 duration-300"
-      onClick={() => signIn("github")}
-    >
-      <Image src={GitHubLogoIcon} alt="GitHub Logo" className="w-6 h-6 mr-2" />
-      Se connecter avec GitHub
-    </button>
+    <SignInButton />
   );
 
   return (

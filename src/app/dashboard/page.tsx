@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useSession, signIn } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
-import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Header from "../components/Header";
 import { getUsernameFromEmail } from "../services/users.service";
 import { GithubProject } from "../types/projects.type";
 import { fetchGitHubProjects } from "../services/project.service";
+import SignInButton from "../components/SignInButton";
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -75,13 +75,7 @@ export default function Dashboard() {
       </Link>
     </div>
   ) : (
-    <button
-      className="bg-none flex flex-row border-gray-300 border py-3 px-6 rounded-md mb-2 hover:bg-gray-100 duration-300"
-      onClick={() => signIn("github")}
-    >
-      <Image src={GitHubLogoIcon} alt="GitHub Logo" className="w-6 h-6 mr-2" />
-      Se connecter avec GitHub
-    </button>
+    <SignInButton />
   );
 
   return (

@@ -1,16 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useSession, signIn } from "next-auth/react";
-import Image from "next/image";
-import GitHubLogoIcon from "../../../../public/svg/github-logo.svg";
+import { useSession } from "next-auth/react";
 import Header from "../../components/Header";
-import { getProject } from "@/app/services/project.service";
+import { getGithubProject } from "@/app/services/project.service";
 import { useParams } from "next/navigation";
 import { GithubProject } from "@/app/types/projects.type";
 
 import CommandForm from "@/app/components/project/CommandForm";
+import SignInButton from "@/app/components/SignInButton";
 
-export default function Project() {
+export default function ProjectCreation() {
   const { data: session } = useSession();
   const [gitHubProject, setGitHubProject] = useState<GithubProject | null>();
 
@@ -23,7 +22,7 @@ export default function Project() {
 
   useEffect(() => {
     if (userEmail) {
-      getProject(params.userName as string, params.projectName as string)
+      getGithubProject(params.userName as string, params.projectName as string)
         .then(setGitHubProject)
         .catch((error) => {
           console.error("Fetching GitHub project failed:", error);
@@ -38,13 +37,7 @@ export default function Project() {
       <CommandForm project={gitHubProject}></CommandForm>
     ) : null
   ) : (
-    <button
-      className="bg-none flex flex-row border-gray-300 border py-3 px-6 rounded-md mb-2 hover:bg-gray-100 duration-300"
-      onClick={() => signIn("github")}
-    >
-      <Image src={GitHubLogoIcon} alt="GitHub Logo" className="w-6 h-6 mr-2" />
-      Se connecter avec GitHub
-    </button>
+    <SignInButton />
   );
 
   return (
