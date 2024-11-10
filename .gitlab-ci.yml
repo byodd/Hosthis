@@ -20,6 +20,8 @@ job-build:
 job-test:
   stage: test
   image: node:21.6.1
+  before_script:
+    - npm install
   script:
     - npm run test
   artifacts:
