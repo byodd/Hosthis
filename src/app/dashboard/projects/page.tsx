@@ -1,18 +1,16 @@
 "use client";
+import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
-import Image from "next/image";
-import Header from "../components/Header";
-import { getUsernameFromEmail } from "../services/users.service";
-import { GithubProject } from "../types/projects.type";
-import { fetchGitHubProjects } from "../services/project.service";
-import SignInButton from "../components/SignInButton";
+import Header from "../../components/Header";
+import { Project } from "../../types/projects.type";
+import { getHostedProjects } from "../../services/project.service";
+import SignInButton from "@/app/components/SignInButton";
 
-export default function Dashboard() {
+export default function Projects() {
   const { data: session } = useSession();
-  const [gitHubProjects, setGitHubProjects] = useState([]);
-  const [gitHubUsername, setGitHubUsername] = useState<string>();
+  const [projects, setProjects] = useState<Project[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
@@ -21,18 +19,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (userEmail) {
-      fetchGitHubProjects(userEmail)
-        .then(setGitHubProjects)
+      getHostedProjects(userEmail)
+        .then((res) => setProjects(res.projects))
         .catch((error) => {
-          console.error("Fetching GitHub projects failed:", error);
-          setError("La récupération des projets GitHub a échoué");
-        });
-
-      getUsernameFromEmail(userEmail)
-        .then(setGitHubUsername)
-        .catch((error) => {
-          console.error("Fetching GitHub username failed:", error);
-          setError("La récupération du nom d'utilisateur GitHub a échoué");
+          console.error(error);
+          setError("La récupération des projets hébergés a échoué");
         });
     }
     setLoading(false);
@@ -48,30 +39,27 @@ export default function Dashboard() {
           className="object-cover rounded-full"
         />
       </div>
-      <p className="text-2xl mb-4">
-        Bonjour <span className="font-bold">{session.user?.name}</span>, quel
-        projet souhaite-tu héberger aujourd&apos;hui ?
-      </p>
+      <p className="text-2xl mb-4">Voici tes projets hébergés :</p>
       <ul className="flex flex-col items-start gap-2 w-full max-h-[300px] overflow-y-auto">
-        {gitHubProjects.length > 0 ? (
-          gitHubProjects.map((project: GithubProject) => (
+        {projects.length > 0 ? (
+          projects.map((project) => (
             <Link
-              href={`${gitHubUsername}/${project.name}`}
+              href={`/project/${project.hosting_id}`}
               className="border border-gray-300 rounded-md py-2 px-4 mb-2 hover:bg-gray-100 duration-300 cursor-pointer"
-              key={project.id}
+              key={project.hosting_id}
             >
-              {project.name}
+              {project.project_url}
             </Link>
           ))
         ) : (
-          <p>😞 Pas de projets publiques trouvés</p>
+          <p>😞 Pas de projets trouvés</p>
         )}
       </ul>
       <Link
-        href="/dashboard/projects"
+        href="/dashboard"
         className="flex flex-row items-center py-2 px-12 bg-[#023246] rounded-lg text-white md:text-[20px] font-semibold hover:bg-[#184d78] duration-300 hover:scale-105"
       >
-        Voir les projets hébergés
+        Retour au tableau de bord
       </Link>
     </div>
   ) : (

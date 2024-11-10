@@ -1,9 +1,9 @@
 "use client";
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
-import GitHubLogoIcon from "../../../public/svg/github-logo.svg";
 import Header from "../components/Header";
+import SignInButton from "../components/SignInButton";
 
 export default function Login() {
   const { data: session } = useSession();
@@ -22,21 +22,15 @@ export default function Login() {
         Bienvenue <span className="font-bold">{session.user?.name}</span>
       </p>
       <p className="font-bold mb-4">{session.user?.email}</p>
-        <button
-          className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white py-2 px-6 rounded-md duration-300"
-          onClick={() => signOut()}
-        >
-          Se déconnecter
-        </button>
+      <button
+        className="text-red-600 border border-red-600 hover:bg-red-600 hover:text-white py-2 px-6 rounded-md duration-300"
+        onClick={() => signOut()}
+      >
+        Se déconnecter
+      </button>
     </div>
   ) : (
-    <button
-      className="bg-none flex flex-row border-gray-300 border py-3 px-6 rounded-md mb-2 hover:bg-gray-100 duration-300"
-      onClick={() => signIn("github")}
-    >
-      <Image src={GitHubLogoIcon} alt="GitHub Logo" className="w-6 h-6 mr-2" />
-      Se connecter avec GitHub
-    </button>
+    <SignInButton />
   );
 
   return (

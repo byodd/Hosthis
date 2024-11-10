@@ -13,8 +13,7 @@ export async function fetchGitHubProjects(userEmail: string) {
   return repoResponse.json();
 }
 
-export async function getProject(userName: string, projectName: string) {
-
+export async function getGithubProject(userName: string, projectName: string) {
   const repoResponse = await fetch(
     `https://api.github.com/repos/${userName}/${projectName}`
   );
@@ -37,8 +36,17 @@ export async function createProject(
       installCommand,
       buildCommand,
       launchCommand,
-      userEmail
+      userEmail,
     });
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function getHostedProjects(userEmail: string) {
+  try {
+    const response = await axios.get(`/api/projects/${userEmail}`);
+    return response.data;
   } catch (err) {
     console.error(err);
   }
