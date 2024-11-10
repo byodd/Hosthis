@@ -4,7 +4,7 @@ import { useSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import GitHubLogoIcon from "../../../../public/svg/github-logo.svg";
 import Header from "../../components/Header";
-import { getProject } from "@/app/utils/project.service";
+import { getProject } from "@/app/services/project.service";
 import { useParams } from "next/navigation";
 import { GithubProject } from "@/app/types/projects.type";
 

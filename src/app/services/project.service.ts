@@ -43,3 +43,12 @@ export async function createProject(
     console.error(err);
   }
 }
+
+export async function getHostedProjects(userEmail: string) {
+  try {
+    const response = await axios.get(`/api/projects/${userEmail}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+}

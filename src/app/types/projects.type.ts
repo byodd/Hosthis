@@ -1,6 +1,6 @@
 export interface Project {
-  id: string;
-  name: string;
+  hosting_id: string;
+  project_url:string;
 }
 
 export interface GithubProject {
