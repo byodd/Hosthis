@@ -15,9 +15,7 @@
     "next": "^14.2.15",
     "next-auth": "^4.24.8",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwind-merge": "^2.5.3",
-    "ts-node": "^10.9.2"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.0",
