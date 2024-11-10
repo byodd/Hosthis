@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Header from "../../components/Header";
-import { getUsernameFromEmail } from "../../services/users.service";
 import { Project } from "../../types/projects.type";
 import { getHostedProjects } from "../../services/project.service";
 import SignInButton from "@/app/components/SignInButton";
