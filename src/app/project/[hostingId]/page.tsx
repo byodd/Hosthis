@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Header from "../../components/Header";
-import { getHostedProjects } from "@/app/services/project.service";
+import { getHostedProjects, startProject, stopProject } from "@/app/services/project.service";
 import { useParams } from "next/navigation";
 import type { Project } from "@/app/types/projects.type";
 
@@ -63,11 +63,15 @@ export default function Project() {
         </p>
         <div className="flex flex-row items-center gap-4">
           {project.status ? (
-            <button className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-green-500 text-white hover:bg-green-600">
+            <button className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-green-500 text-white hover:bg-green-600"
+              onClick={() => startProject(project.hosting_id)}
+            >
               Run
             </button>
           ) : (
-            <button className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-red-500 text-white hover:bg-red-600">
+            <button className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-red-500 text-white hover:bg-red-600"
+              onClick={() => stopProject(project.hosting_id)}
+            >
               Stop
             </button>
           )}

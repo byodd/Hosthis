@@ -51,3 +51,19 @@ export async function getHostedProjects(userEmail: string) {
     console.error(err);
   }
 }
+
+export async function stopProject(projectId: string) {
+  try {
+    return axios.post(`/api/commands/${projectId}/stop`);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function startProject(projectId: string) {
+  try {
+    return axios.post(`/api/commands/${projectId}/start`);
+  } catch (err) {
+    console.error(err);
+  }
+}
