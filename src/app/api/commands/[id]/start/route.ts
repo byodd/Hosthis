@@ -1,9 +1,11 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const apiUrl = process.env.API_URL;
   const apiKey = process.env.HOSTHIS_API_KEY;
+  
+  const { id } = params;
 
   if (!apiUrl || !apiKey) {
     return NextResponse.json(
@@ -13,25 +15,33 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { id, ...rest } = body;
-  console.log(body);
+  const { email } = body;
+  console.log(email);
 
   try {
     const response = await axios.post(
       `${apiUrl}/V1/commands/${id}/start`,
-      {
-        ...rest,
-      },
+      { email },
       {
         headers: {
           Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json",
         },
       }
     );
 
-    return NextResponse.json(response.data, { status: 200 });
+    const containerData = response.data;
+    console.log(containerData);
+
+    return NextResponse.json(
+      containerData,
+      { status: 201 }
+    );
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ message: "Cannot fetch API" }, { status: 400 });
+    return NextResponse.json(
+      { message: "Cannot start container" },
+      { status: 400 }
+    );
   }
 }

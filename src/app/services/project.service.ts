@@ -31,7 +31,7 @@ export async function createProject(
   userEmail: string
 ) {
   try {
-    return axios.post("/api/commands", {
+    return await axios.post("/api/commands", {
       projectUrl,
       installCommand,
       buildCommand,
@@ -52,17 +52,31 @@ export async function getHostedProjects(userEmail: string) {
   }
 }
 
-export async function stopProject(projectId: string) {
+export async function getProjectStatus(projectId: string) {
   try {
-    return axios.post(`/api/commands/${projectId}/stop`);
+    const response = await axios.get(`/api/commands/${projectId}/status`);
+    return response.data;
   } catch (err) {
     console.error(err);
+    throw new Error("Failed to fetch project status");
   }
 }
 
-export async function startProject(projectId: string) {
+export async function stopProject(projectId: string) {
   try {
-    return axios.post(`/api/commands/${projectId}/start`);
+    const response = await axios.post(`/api/commands/${projectId}/stop`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw new Error("Failed to stop project");
+  }
+}
+
+export async function startProject(projectId: string, email : string) {
+  try {
+    return await axios.post(`/api/commands/${projectId}/start`, {
+      email: email,
+    });
   } catch (err) {
     console.error(err);
   }

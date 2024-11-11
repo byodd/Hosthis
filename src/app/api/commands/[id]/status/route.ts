@@ -1,7 +1,7 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(
+export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
@@ -18,27 +18,20 @@ export async function POST(
   }
 
   try {
-    const response = await axios.post(
-      `${apiUrl}/V1/commands/${id}/stop`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await axios.get(`${apiUrl}/V1/commands/${id}/status`, {
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+      },
+    });
 
     const containerData = response.data;
+    console.log(containerData);
 
-    return NextResponse.json(
-      containerData,
-      { status: 201 }
-    );
+    return NextResponse.json(containerData, { status: 200 });
   } catch (err) {
     console.error(err);
     return NextResponse.json(
-      { message: "Cannot stop container" },
+      { message: "Cannot fetch status" },
       { status: 400 }
     );
   }
