@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { createProject } from "../../services/project.service";
 import { GithubProject } from "@/app/types/projects.type";
+import { redirect } from "next/navigation";
 
 interface CommandFormProps {
   project: GithubProject;
@@ -28,7 +29,7 @@ export default function CommandForm(props: CommandFormProps) {
         userEmail
       )
         .then(() => {
-          console.log("Project created");
+          redirect("/dashboard/projects");
         })
         .catch((error) => {
           console.error("Failed to create the project:", error);
