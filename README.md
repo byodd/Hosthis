@@ -1,6 +1,7 @@
 # Hosthis
 ## Description
 Hosthis is a platform to host your nodejs website from your github repository.
+Warning: only public repositories of Node.js projects can be hosted.
 
 ## Set up
 3) Clone the project:

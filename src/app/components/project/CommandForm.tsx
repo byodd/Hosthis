@@ -65,7 +65,7 @@ export default function CommandForm(props: CommandFormProps) {
         <label>Commande de lancement</label>
         <input
           type="text"
-          placeholder="npm start"
+          placeholder="npm run start"
           value={launchCommand}
           className="border-gray-300 border py-3 px-6 rounded-md mb-2"
           onChange={(e) => setLaunchCommand(e.target.value)}
