@@ -18,12 +18,12 @@ export async function GET(
   }
 
   try {
-    const response = await axios.get(`${apiUrl}/V1/commands/${id}/status`, {
+    const response = await axios.get(`${apiUrl}/V1/commands/project/${id}/status`, {
       headers: {
         Authorization: `Bearer ${apiKey}`,
       },
     });
-
+    
     const containerData = response.data;
     console.log(containerData);
 

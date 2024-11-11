@@ -1,8 +1,21 @@
 // imports
-import NextAuth from "next-auth"
+import NextAuth, { User, DefaultSession } from "next-auth";
 
-// importing providers
-import GithubProvider from "next-auth/providers/github"
+import GithubProvider from "next-auth/providers/github";
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            id: string;
+            username: string; 
+        } & DefaultSession["user"];
+    }
+
+    interface User {
+        id: string;
+        username: string;  
+    }
+}
 
 const handler = NextAuth({
     providers: [
@@ -10,7 +23,24 @@ const handler = NextAuth({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
         }),
-    ]
-})
+    ],
+    callbacks: {
+        jwt({ token, user, profile }) {
+            if (user) token.user = user;
+            if (profile) token.profile = profile;
+            return token;
+        },
+        session({ session, token }) {
+            if (session.user) {
+                session.user = {
+                    ...session.user,
+                    id: token.sub as string,  
+                    username: (token.profile as any).login,  
+                };
+            }
+            return session;
+        },
+    },
+});
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { createProject } from "../../services/project.service";
 import { GithubProject } from "@/app/types/projects.type";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface CommandFormProps {
   project: GithubProject;
@@ -11,6 +11,8 @@ interface CommandFormProps {
 
 export default function CommandForm(props: CommandFormProps) {
   const { data: session } = useSession();
+
+  const router = useRouter()
 
   const [installCommand, setInstallCommand] = useState("");
   const [buildCommand, setBuildCommand] = useState("");
@@ -29,7 +31,7 @@ export default function CommandForm(props: CommandFormProps) {
         userEmail
       )
         .then(() => {
-          redirect("/dashboard/projects");
+          router.push("/dashboard/projects");
         })
         .catch((error) => {
           console.error("Failed to create the project:", error);

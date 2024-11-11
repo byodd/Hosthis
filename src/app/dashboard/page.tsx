@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
 import Header from "../components/Header";
-import { getUsernameFromEmail } from "../services/users.service";
 import { GithubProject } from "../types/projects.type";
 import { fetchGitHubProjects } from "../services/project.service";
 import SignInButton from "../components/SignInButton";
@@ -12,31 +11,21 @@ import SignInButton from "../components/SignInButton";
 export default function Dashboard() {
   const { data: session } = useSession();
   const [gitHubProjects, setGitHubProjects] = useState([]);
-  const [gitHubUsername, setGitHubUsername] = useState<string>();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
 
-  const userEmail = session?.user?.email;
-
   useEffect(() => {
-    if (userEmail) {
-      fetchGitHubProjects(userEmail)
+    if (session) {
+      fetchGitHubProjects(session.user.username)
         .then(setGitHubProjects)
         .catch((error) => {
           console.error("Fetching GitHub projects failed:", error);
           setError("La récupération des projets GitHub a échoué");
         });
-
-      getUsernameFromEmail(userEmail)
-        .then(setGitHubUsername)
-        .catch((error) => {
-          console.error("Fetching GitHub username failed:", error);
-          setError("La récupération du nom d'utilisateur GitHub a échoué");
-        });
     }
     setLoading(false);
-  }, [userEmail]);
+  });
 
   const content = session ? (
     <div className="flex flex-col items-center">
@@ -56,7 +45,7 @@ export default function Dashboard() {
         {gitHubProjects.length > 0 ? (
           gitHubProjects.map((project: GithubProject) => (
             <Link
-              href={`${gitHubUsername}/${project.name}`}
+              href={`${session.user.username}/${project.name}`}
               className="border border-gray-300 rounded-md py-2 px-4 mb-2 hover:bg-gray-100 duration-300 cursor-pointer"
               key={project.id}
             >

@@ -30,13 +30,21 @@ export default function Project() {
     if (userEmail) {
       getHostedProjects(userEmail)
         .then((res) => {
+          console.log(res)
+          console.log("AB");
+          
           const foundProject = res.projects.find(
             (project: Project) => project.hosting_id === params.hostingId
           );
+          console.log("A1");
           setProject(foundProject);
+          console.log("A2");
           if (foundProject) {
+            console.log("A3");
             return getProjectStatus(foundProject.hosting_id);
           }
+          console.log("A5")
+
         })
         .then((res) => {
           if (res && res.container && res.container.status === "running") {

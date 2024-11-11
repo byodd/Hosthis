@@ -1,8 +1,6 @@
-import { getUsernameFromEmail } from "./users.service";
 import axios from "axios";
 
-export async function fetchGitHubProjects(userEmail: string) {
-  const userName = await getUsernameFromEmail(userEmail);
+export async function fetchGitHubProjects(userName: string) {
 
   const repoResponse = await fetch(
     `https://api.github.com/users/${userName}/repos`
