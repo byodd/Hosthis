@@ -123,14 +123,14 @@ export default function Project() {
         </p>
         <div className="flex flex-row items-center gap-4">
           <button
-            className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-red-500 text-white hover:bg-red-600"
+            className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-red-500 text-white hover:bg-red-600 disabled:opacity-50"
             onClick={stopCurrentProject}
             disabled={stopping}
           >
             {stopping ? "Arrêt..." : "Stop"}
           </button>
           <button
-            className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-green-500 text-white hover:bg-green-600"
+            className="rounded-md py-2 px-4 mb-2 duration-300 cursor-pointer bg-green-500 text-white hover:bg-green-600 disabled:opacity-50"
             onClick={startCurrentProject}
             disabled={starting}
           >
