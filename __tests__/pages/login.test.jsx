@@ -1,13 +1,13 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import Login from '../src/app/login/page';
-import '@testing-library/jest-dom';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { render, screen, fireEvent } from "@testing-library/react";
+import Login from "../../src/app/login/page";
+import "@testing-library/jest-dom";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 // Mock de NextAuth
-jest.mock('next-auth/react');
+jest.mock("next-auth/react");
 
-describe('Login Component', () => {
-  it('renders login button when user is not authenticated', () => {
+describe("Login Component", () => {
+  it("renders login button when user is not authenticated", () => {
     useSession.mockReturnValue({ data: null });
 
     render(<Login />);
@@ -16,13 +16,13 @@ describe('Login Component', () => {
     expect(loginButton).toBeInTheDocument();
   });
 
-  it('renders user info and sign out button when user is authenticated', () => {
+  it("renders user info and sign out button when user is authenticated", () => {
     useSession.mockReturnValue({
       data: {
         user: {
-          name: 'John Doe',
-          email: 'john@example.com',
-          image: 'https://example.com/john.jpg',
+          name: "John Doe",
+          email: "john@example.com",
+          image: "https://example.com/john.jpg",
         },
       },
     });
@@ -47,16 +47,16 @@ describe('Login Component', () => {
     const loginButton = screen.getByText(/Se connecter avec GitHub/i);
     fireEvent.click(loginButton);
 
-    expect(signIn).toHaveBeenCalledWith('github');
+    expect(signIn).toHaveBeenCalledWith("github");
   });
 
   it('calls signOut when clicking "Se déconnecter"', () => {
     useSession.mockReturnValue({
       data: {
         user: {
-          name: 'John Doe',
-          email: 'john@example.com',
-          image: 'https://example.com/john.jpg',
+          name: "John Doe",
+          email: "john@example.com",
+          image: "https://example.com/john.jpg",
         },
       },
     });

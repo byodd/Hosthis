@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,12 +13,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/components/*": [
-        "./components/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./components/*"]
     },
     "plugins": [
       {
@@ -35,9 +27,10 @@
     "**/*.ts",
     "**/*.tsx",
     "src/components/quoicoubeh.tsx",
-    ".next/types/**/*.ts"
-, "__tests__/Header.test.jsx", "__tests__/login.test.jsx", "__tests__/helloApi.test.tsx"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    ".next/types/**/*.ts",
+    "__tests__/Header.test.jsx",
+    "__tests__/pages/login.test.jsx",
+    "__tests__/helloApi.test.tsx"
+  ],
+  "exclude": ["node_modules"]
 }

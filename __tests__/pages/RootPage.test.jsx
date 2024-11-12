@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import Home from "../src/app/page";
+import Home from "../../src/app/page";
 import "@testing-library/jest-dom";
 
 jest.mock("next/image", () => ({
@@ -7,7 +7,7 @@ jest.mock("next/image", () => ({
   default: (props) => <img alt={props.alt || ""} {...props} />,
 }));
 
-jest.mock("../src/app/components/Header", () => ({
+jest.mock("../../src/app/components/Header", () => ({
   __esModule: true,
   default: () => <div data-testid="header">Header</div>,
 }));

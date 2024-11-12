@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom'
-import SessionWrapper from '../src/app/components/SessionWrapper'; 
+import SessionWrapper from '../../src/app/components/SessionWrapper'; 
 
 jest.mock("next-auth/react", () => ({
   SessionProvider: ({children}: {children: React.ReactNode}) => <div data-testid="mock-session-provider">{children}</div>

@@ -62,7 +62,7 @@ const customRender = (ui: React.ReactElement) => {
 describe("Dashboard Page", () => {
   it("renders user info when authenticated", async () => {
     customRender(<Dashboard />);
-    expect(await screen.findByText(/Bonjour/)).toBeInTheDocument(); // Use `findByText` for async rendering
+    expect(await screen.findByText(/Bonjour/)).toBeInTheDocument(); 
     expect(await screen.findByText("Test User")).toBeInTheDocument();
   });
 
@@ -70,6 +70,6 @@ describe("Dashboard Page", () => {
     customRender(<Dashboard />);
     expect(
       await screen.findByText("😞 Pas de projets publiques trouvés")
-    ).toBeInTheDocument(); // Use `findByText` for async rendering
+    ).toBeInTheDocument(); 
   });
 });

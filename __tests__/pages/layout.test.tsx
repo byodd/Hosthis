@@ -3,7 +3,7 @@ import RootLayout from "@/app/layout";
 import "@testing-library/jest-dom";
 
 // Mock SessionWrapper
-jest.mock("../src/app/components/SessionWrapper", () => ({
+jest.mock("../../src/app/components/SessionWrapper", () => ({
   __esModule: true,
   default: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="session-wrapper">{children}</div>
