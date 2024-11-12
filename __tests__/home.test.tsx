@@ -4,7 +4,6 @@ import { SessionProvider } from 'next-auth/react';
 import Home from '../src/app/page';
 import { Session } from 'next-auth';
 
-// Typage du mockSession
 const mockSession: Session = {
   expires: '1',
   user: {
