@@ -18,11 +18,9 @@ export default function ProjectCreation() {
 
   const params = useParams();
 
-  const userEmail: string | null | undefined = session?.user?.email;
-
   useEffect(() => {
-    if (userEmail) {
-      getGithubProject(params.userName as string, params.projectName as string)
+    if (session) {
+      getGithubProject(session.user.username, params.projectName as string)
         .then(setGitHubProject)
         .catch((error) => {
           console.error("Fetching GitHub project failed:", error);
@@ -30,7 +28,7 @@ export default function ProjectCreation() {
         });
     }
     setLoading(false);
-  }, [userEmail, params.userName, params.projectName]);
+  }, [session, params.projectName]);
 
   const content = session ? (
     gitHubProject ? (

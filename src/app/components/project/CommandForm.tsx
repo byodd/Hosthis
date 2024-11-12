@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { createProject } from "../../services/project.service";
 import { GithubProject } from "@/app/types/projects.type";
+import { useRouter } from "next/navigation";
 
 interface CommandFormProps {
   project: GithubProject;
@@ -10,6 +11,8 @@ interface CommandFormProps {
 
 export default function CommandForm(props: CommandFormProps) {
   const { data: session } = useSession();
+
+  const router = useRouter()
 
   const [installCommand, setInstallCommand] = useState("");
   const [buildCommand, setBuildCommand] = useState("");
@@ -28,7 +31,7 @@ export default function CommandForm(props: CommandFormProps) {
         userEmail
       )
         .then(() => {
-          console.log("Project created");
+          router.push("/dashboard/projects");
         })
         .catch((error) => {
           console.error("Failed to create the project:", error);
@@ -64,7 +67,7 @@ export default function CommandForm(props: CommandFormProps) {
         <label>Commande de lancement</label>
         <input
           type="text"
-          placeholder="npm start"
+          placeholder="npm run start"
           value={launchCommand}
           className="border-gray-300 border py-3 px-6 rounded-md mb-2"
           onChange={(e) => setLaunchCommand(e.target.value)}
