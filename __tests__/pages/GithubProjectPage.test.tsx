@@ -2,7 +2,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import ProjectCreation from "@/app/[userName]/[projectName]/page";
 import "@testing-library/jest-dom";
-import { SessionProvider, useSession } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 import { getGithubProject } from "@/app/services/project.service";
 
 // Mock dependencies
@@ -19,7 +19,6 @@ jest.mock("../../src/app/services/project.service", () => ({
   getGithubProject: jest.fn(),
 }));
 
-// Mock next-auth consistent with CommandForm.test.tsx
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(() => ({
     data: {

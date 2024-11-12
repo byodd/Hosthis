@@ -52,7 +52,7 @@ const customRender = (ui: React.ReactElement) => {
           },
           expires: "1",
         } as any
-      } // <-- Added `as any` to bypass TypeScript issues
+      }
     >
       {ui}
     </SessionProvider>
