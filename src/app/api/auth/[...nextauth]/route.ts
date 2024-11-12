@@ -1,5 +1,5 @@
 // imports
-import NextAuth, { User, DefaultSession } from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 
 import GithubProvider from "next-auth/providers/github";
 
@@ -33,9 +33,9 @@ const handler = NextAuth({
         session({ session, token }) {
             if (session.user) {
                 session.user = {
-                    ...session.user,
-                    id: token.sub as string,  
-                    username: (token.profile as any).login,  
+                  ...session.user,
+                  id: token.sub as string,
+                  username: (token.profile as { login: string }).login,
                 };
             }
             return session;

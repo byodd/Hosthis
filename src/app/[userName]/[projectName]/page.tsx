@@ -11,8 +11,9 @@ import SignInButton from "@/app/components/SignInButton";
 
 export default function ProjectCreation() {
   const { data: session } = useSession();
-  const [gitHubProject, setGitHubProject] = useState<GithubProject | null>();
-
+  const [gitHubProject, setGitHubProject] = useState<GithubProject | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
 
@@ -25,25 +26,36 @@ export default function ProjectCreation() {
         .catch((error) => {
           console.error("Fetching GitHub project failed:", error);
           setError("La récupération du projet GitHub a échoué");
-        });
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
-    setLoading(false);
   }, [session, params.projectName]);
 
-  const content = session ? (
-    gitHubProject ? (
-      <CommandForm project={gitHubProject}></CommandForm>
-    ) : null
-  ) : (
-    <SignInButton />
-  );
+  let projectContent;
+  if (session) {
+    projectContent = gitHubProject ? (
+      <CommandForm project={gitHubProject} />
+    ) : null;
+  } else {
+    projectContent = <SignInButton />;
+  }
+
+  let displayContent;
+  if (loading) {
+    displayContent = <p>Chargement...</p>;
+  } else if (error) {
+    displayContent = <p className="text-red-500">❌{error}</p>;
+  } else {
+    displayContent = projectContent;
+  }
 
   return (
     <div className="h-full overflow-hidden">
       <Header />
       <div className="h-full flex flex-col items-center justify-center">
-        {error && <p className="text-red-500">❌{error}</p>}
-        {loading ? <p>Chargement...</p> : error ? null : content}
+        {displayContent}
       </div>
     </div>
   );
