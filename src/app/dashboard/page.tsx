@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Header from "../components/Header";
 import { GithubProject } from "../types/projects.type";
-import { fetchGitHubProjects } from "../services/project.service";
+import { fetchGitHubProjects } from "../services/githubProject.service";
 import SignInButton from "../components/SignInButton";
 
 export default function Dashboard() {

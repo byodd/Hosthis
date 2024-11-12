@@ -3,7 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import ProjectCreation from "@/app/[userName]/[projectName]/page";
 import "@testing-library/jest-dom";
 import { SessionProvider } from "next-auth/react";
-import { getGithubProject } from "@/app/services/project.service";
+import { getGithubProject } from "@/app/services/githubProject.service";
 
 // Mock dependencies
 jest.mock("next/navigation", () => ({
@@ -15,7 +15,7 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
 }));
 
-jest.mock("../../src/app/services/project.service", () => ({
+jest.mock("../../src/app/services/githubProject.service", () => ({
   getGithubProject: jest.fn(),
 }));
 

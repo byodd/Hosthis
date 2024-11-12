@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Header from "../../components/Header";
-import { getGithubProject } from "@/app/services/project.service";
+import { getGithubProject } from "@/app/services/githubProject.service";
 import { useParams } from "next/navigation";
 import { GithubProject } from "@/app/types/projects.type";
 
