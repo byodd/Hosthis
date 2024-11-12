@@ -7,9 +7,8 @@ import { Session } from 'next-auth';
 const mockSession: Session = {
   expires: '1',
   user: {
-    email: 'user@example.com',
-    name: 'John Doe',
-    image: 'https://example.com/john.jpg',
+    id: 'John Doe',
+    username: 'https://example.com/john.jpg',
   },
 };
 
