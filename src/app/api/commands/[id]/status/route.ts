@@ -25,7 +25,6 @@ export async function GET(
     });
     
     const containerData = response.data;
-    console.log(containerData);
 
     return NextResponse.json(containerData, { status: 200 });
   } catch (err) {

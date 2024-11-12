@@ -16,7 +16,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   const body = await req.json();
   const { email } = body;
-  console.log(email);
 
   try {
     const response = await axios.post(
