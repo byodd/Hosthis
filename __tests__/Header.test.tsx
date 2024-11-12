@@ -12,7 +12,7 @@ describe('Header', () => {
   it('should display the login button when there is no session and not loading', async () => {
     useSession.mockReturnValue({ data: null });
     render(<Header />);
-    await waitFor(() => expect(screen.getByText("S'inscrire/se connecter")).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/S'inscrire\/se connecter/)).toBeInTheDocument());
   });
 
   it('should display user information when there is a session and not loading', async () => {
