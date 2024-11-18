@@ -36,9 +36,9 @@ export default function Project() {
 
         if (foundProject) {
           setProject(foundProject);
-          const statusRes = await getProjectStatus(foundProject.hosting_id);
+          const statusRes = await getProjectStatus(foundProject.hosting_id, userEmail);
           if (statusRes.container?.status === "running") {
-            setProjectUrl(statusRes.container.url);
+            setProjectUrl(statusRes.container.container.url);
             updateProjectStatus(true);
           }
         }

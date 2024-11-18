@@ -29,9 +29,11 @@ export async function getHostedProjects(userEmail: string) {
   }
 }
 
-export async function getProjectStatus(projectId: string) {
+export async function getProjectStatus(projectId: string, email: string) {
   try {
-    const response = await axios.get(`/api/commands/${projectId}/status`);
+    const response = await axios.post(`/api/commands/${projectId}/status`, {
+      email: email
+    });
     return response.data;
   } catch (err) {
     console.error(err);
