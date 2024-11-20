@@ -82,13 +82,21 @@ describe("Project Service", () => {
 
   describe("getProjectStatus", () => {
     it("should fetch project status successfully", async () => {
-      const mockStatus = { status: "running" };
-      mockedAxios.get.mockResolvedValue({ data: mockStatus });
+      const mockResponse = {
+        container: {
+          status: "running",
+          url: "https://test-project.com",
+        },
+      };
+      mockedAxios.post.mockResolvedValue({ data: mockResponse });
 
-      const result = await getProjectStatus("123");
+      const result = await getProjectStatus("123", "test@example.com");
 
-      expect(mockedAxios.get).toHaveBeenCalledWith("/api/commands/123/status");
-      expect(result).toEqual(mockStatus);
+      expect(mockedAxios.post).toHaveBeenCalledWith(
+        "/api/commands/123/status",
+        { email: "test@example.com" }
+      );
+      expect(result).toEqual(mockResponse);
     });
   });
 });

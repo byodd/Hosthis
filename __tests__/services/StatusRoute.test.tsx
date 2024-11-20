@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET } from "@/app/api/commands/[id]/status/route";
+import { POST } from "@/app/api/commands/[id]/status/route";
 import { NextRequest, NextResponse } from "next/server";
 
 global.fetch = jest.fn();
@@ -47,17 +47,22 @@ describe("Status Project Route", () => {
         url: "https://test-project.com",
       },
     };
-    mockedAxios.get.mockResolvedValue({ data: mockResponse });
+    mockedAxios.post.mockResolvedValue({ data: mockResponse });
 
     const request = new NextRequest(
-      "http://localhost:3000/api/commands/123/status"
+      "http://localhost:3000/api/commands/123/status",
+      {
+        method: "POST",
+        body: JSON.stringify({ email: "test@example.com" }),
+      }
     );
 
-    const response = await GET(request, { params: { id: "123" } });
+    const response = await POST(request, { params: { id: "123" } });
     const data = await response.json();
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
-      "http://test-api.com/V1/commands/project/123/status",
+    expect(mockedAxios.post).toHaveBeenCalledWith(
+      "http://test-api.com/V1/commands/project/123/status?",
+      { email: "test@example.com" },
       {
         headers: {
           Authorization: "Bearer test-key",
@@ -73,10 +78,14 @@ describe("Status Project Route", () => {
     process.env.HOSTHIS_API_KEY = undefined;
 
     const request = new NextRequest(
-      "http://localhost:3000/api/commands/123/status"
+      "http://localhost:3000/api/commands/123/status",
+      {
+        method: "POST",
+        body: JSON.stringify({ email: "test@example.com" }),
+      }
     );
 
-    const response = await GET(request, { params: { id: "123" } });
+    const response = await POST(request, { params: { id: "123" } });
     const data = await response.json();
 
     expect(data).toEqual({ error: "Env variable not found" });
@@ -84,14 +93,18 @@ describe("Status Project Route", () => {
   });
 
   it("should handle API errors", async () => {
-    mockedAxios.get.mockRejectedValue(new Error("API Error"));
+    mockedAxios.post.mockRejectedValue(new Error("API Error"));
     console.error = jest.fn();
 
     const request = new NextRequest(
-      "http://localhost:3000/api/commands/123/status"
+      "http://localhost:3000/api/commands/123/status",
+      {
+        method: "POST",
+        body: JSON.stringify({ email: "test@example.com" }),
+      }
     );
 
-    const response = await GET(request, { params: { id: "123" } });
+    const response = await POST(request, { params: { id: "123" } });
     const data = await response.json();
 
     expect(data).toEqual({ message: "Cannot fetch status" });
