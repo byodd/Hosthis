@@ -4,17 +4,22 @@ Hosthis is a platform to host your nodejs website from your github repository.
 Warning: only public repositories of Node.js projects can be hosted.
 
 ## Set up
-3) Clone the project:
+1) Clone the project:
 ```bash
-git clone https://forge.univ-lyon1.fr/hosthis-group/hosthis-front.git
+git clone https://github.com/byodd/Hosthis.git
 ```
 
-2) Install dependecies:
+2) Clone the backend project and follow its instruction:
+```bash
+git clone https://github.com/Claquetteuuuh/hosthis-back.git
+```
+
+3) Install dependecies:
 ```bash
 npm install
 ```
 
-3) Create network
+4) Create network
 ```bash
 docker network create hosthis-network
 ```
@@ -33,7 +38,6 @@ docker compose up --watch
 ```bash
 npm run test
 ```
-
 
 ## Production
 ### Build
